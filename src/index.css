@@ -90,6 +90,39 @@ html {
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+/* Shimmer animation for funding progress bars */
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(200%); }
+}
+.animate-shimmer {
+  animation: shimmer 2s infinite;
+}
+
+/* Achievement badge fade-in */
+@keyframes badgeFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+.achievement-badge {
+  animation: badgeFadeIn 0.5s ease-out both;
+}
+
+/* Glow pulse for highlighted elements */
+@keyframes glowPulse {
+  0%, 100% { box-shadow: 0 0 20px rgba(245, 251, 82, 0.1); }
+  50% { box-shadow: 0 0 40px rgba(245, 251, 82, 0.3); }
+}
+.glow-pulse {
+  animation: glowPulse 3s ease-in-out infinite;
+}
+
 @font-face {
   font-family: 'Gilroy-Thin';
   src: url('./assets/fonts/Gilroy-Thin.ttf') format('truetype');
