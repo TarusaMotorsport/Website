@@ -1,5 +1,8 @@
 # Tarusa Motorsport — Data Entry Guide
-> Fill in your real data here. Each section maps directly to the website.
+
+> **Quick Start:** Clone → `npm install` → `npm run dev` → Edit data files below → Commit & push
+
+Fill in your real data here. Each section maps directly to the website.
 
 ---
 
@@ -142,7 +145,7 @@ Replace placeholder entries in `mediaData.press` with real article links.
 
 Search for:
 ```
-🏁 Target: SAEINDIA Baja 2025
+🏁 Target: SAEINDIA Baja 2026
 ```
 Update the event name and year if needed.
 
@@ -165,14 +168,34 @@ Target: ₹Y
 
 ## Summary Checklist
 
-- [ ] Fill all team members in `src/data/teamData.js`
-- [ ] Add team photos to `src/assets/team/` and link them
-- [ ] Update member count in `src/data/aboutData.js`
-- [ ] Update 2025 story paragraph in `src/data/aboutData.js`
-- [ ] Update build status items in `TimelineSection2025.jsx`
-- [ ] Add 2025 build photo to `src/assets/about/timeline_2025.jpg`
-- [ ] Add gallery photos to `src/assets/gallery/` and link them in `mediaData.js`
-- [ ] Update video URLs in `mediaData.js`
-- [ ] Add press coverage links in `mediaData.js`
-- [ ] Update competition results in `AchievementsSection.jsx`
-- [ ] Update CTA target competition in `CTASection.jsx`
+**Team (`src/data/teamData.js`)**
+- [ ] Fill all team members with name, role, department, bio
+- [ ] Add photos to `src/assets/team/` (use `firstname_lastname.jpg`)
+- [ ] Import and link photos in teamData.js
+
+**About (`src/data/aboutData.js`)**
+- [ ] Update member count stat
+- [ ] Update 2026 story paragraph
+
+**Timeline (`src/components/TimelineSection2025.jsx`)**
+- [ ] Update build status items (complete/in-progress/upcoming)
+- [ ] Add 2026 build photo to `src/assets/about/timeline_2025.jpg`
+
+**Achievements (`src/components/AchievementsSection.jsx`)**
+- [ ] Update competition results
+- [ ] Set `highlight: true` on best achievement
+
+**Media (`src/data/mediaData.js`)**
+- [ ] Add gallery photos to `src/assets/gallery/`
+- [ ] Update video URLs (YouTube/Instagram)
+- [ ] Add press coverage links
+
+**CTA (`src/components/CTASection.jsx`)**
+- [ ] Update target competition year
+
+---
+
+## Need Help?
+
+- Open an issue on GitHub
+- Contact: [@tarusamotorsport](https://instagram.com/tarusamotorsport)
