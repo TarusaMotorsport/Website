@@ -1,0 +1,175 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Hide scrollbar but keep functionality */
+::-webkit-scrollbar {
+  display: none;
+}
+
+/* Basic smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Motion blur effect */
+.motion-blur {
+  filter: blur(1px);
+  transform: scale(1.02);
+  will-change: transform;
+}
+
+/* Circular Menu Animations */
+@keyframes menuItemFadeIn {
+  from {
+    opacity: 0;
+    transform: translateX(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.menu-item {
+  opacity: 0;
+  transition: all 0.15s ease-out;
+}
+
+.pointer-events-auto .menu-item {
+  opacity: 1;
+  animation: menuItemFadeIn 0.15s ease-out forwards;
+}
+
+.menu-item:hover {
+  transform: translate(var(--tx), var(--ty)) scale(1.05) !important;
+}
+
+/* Racing mode styles */
+.race-mode {
+  background-color: #1a1a1a !important;
+  color: #ff6b00 !important;
+}
+
+.race-mode h1 {
+  color: #ff6b00 !important;
+  text-shadow: 0 0 10px rgba(255, 107, 0, 0.5);
+}
+
+.race-mode p {
+  color: #ff9248 !important;
+}
+
+.race-mode .bg-white {
+  background-color: #1a1a1a !important;
+}
+
+.race-mode .text-\[\#0F5F4B\] {
+  color: #ff0000 !important;
+}
+
+.race-mode .bg-\[\#0F5F4B\] {
+  background-color: #ff0000 !important;
+}
+
+.race-mode .bg-\[\#F5FB52\] {
+  background-color: #ffff00 !important;
+}
+
+.race-mode .text-gray-800 {
+  color: #ff9248 !important;
+}
+
+.race-mode .text-gray-600 {
+  color: #ffb584 !important;
+}
+
+/* Optimize animations */
+.transition-all {
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@font-face {
+  font-family: 'Gilroy-Thin';
+  src: url('./assets/fonts/Gilroy-Thin.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Gilroy-Light';
+  src: url('./assets/fonts/Gilroy-Light.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Gilroy-Regular';
+  src: url('./assets/fonts/Gilroy-Regular.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Gilroy-Medium';
+  src: url('./assets/fonts/Gilroy-Medium.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Gilroy-SemiBold';
+  src: url('./assets/fonts/Gilroy-SemiBold.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Gilroy-Bold';
+  src: url('./assets/fonts/Gilroy-Bold.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Gilroy-Black';
+  src: url('./assets/fonts/Gilroy-Black.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Rough-Splash';
+  src: url('./assets/fonts/rough/Rough Splash.ttf') format('truetype');
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #F0F5F5;
+  font-family: 'Gilroy-Regular', sans-serif;
+}
+
+h1 {
+  font-size: 3.2em;
+  line-height: 1.1;
+}
+
+button {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: #1a1a1a;
+  cursor: pointer;
+  transition: border-color 0.25s;
+}
+button:hover {
+  border-color: #646cff;
+}
+button:focus,
+button:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    color: #213547;
+    background-color: #ffffff;
+  }
+  a:hover {
+    color: #747bff;
+  }
+  button {
+    background-color: #f9f9f9;
+  }
+}
