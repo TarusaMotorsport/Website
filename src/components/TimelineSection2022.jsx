@@ -3,7 +3,7 @@ import polaroidImage from '../assets/journey_pics/polaroid.png';
 
 const TimelineSection2022 = () => {
   return (
-    <div className="relative min-h-screen w-full bg-[#071410] flex items-center justify-center overflow-hidden">
+    <div className="relative h-full w-full bg-[#071410] flex items-center justify-center overflow-hidden">
       {/* Dot texture */}
       <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'radial-gradient(circle, white 1px, transparent 1px)', backgroundSize: '36px 36px' }} />
       {/* Glow */}

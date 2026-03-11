@@ -4,9 +4,9 @@ import polaroidImage from '../assets/journey_pics/polaroid.png';
 
 const TimelineSection = () => {
   return (
-    <div className="relative w-full overflow-hidden">
+    <div className="relative w-full h-full overflow-hidden">
       {/* 2017 Section */}
-      <section id="2017" className="relative min-h-screen w-full flex items-center justify-center bg-[#050f0c]">
+      <section id="2017" className="relative h-screen w-full flex items-center justify-center bg-[#050f0c]">
         {/* Dot texture */}
         <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'radial-gradient(circle, white 1px, transparent 1px)', backgroundSize: '36px 36px' }} />
         {/* Glow */}
@@ -57,7 +57,7 @@ const TimelineSection = () => {
       </section>
 
       {/* 2022 Section */}
-      <section id="2022" className="relative min-h-screen w-full flex items-center justify-center bg-[#071410]">
+      <section id="2022" className="relative h-screen w-full flex items-center justify-center bg-[#071410]">
         {/* Dot texture */}
         <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'radial-gradient(circle, white 1px, transparent 1px)', backgroundSize: '36px 36px' }} />
         {/* Glow */}

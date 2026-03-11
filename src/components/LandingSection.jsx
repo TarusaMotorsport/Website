@@ -21,8 +21,7 @@ const LoadingSpinner = () => {
 };
 
 const Scene = ({ scrollProgress }) => {
-  const modelPosition = [-0.7, -0.7, 0];
-  const modelRotation = [0, 0.8, 0];
+  // Model shrinks slightly as you scroll away
   const modelScale = 1.4 - (scrollProgress * 0.3);
 
   return (
@@ -31,9 +30,10 @@ const Scene = ({ scrollProgress }) => {
       <directionalLight position={[5, 5, 5]} intensity={5} />
       <directionalLight position={[9, 1, 5]} intensity={3} />
       <CarModel
-        position={modelPosition}
-        rotation={modelRotation}
+        position={[-0.7, -0.7, 0]}
+        rotation={[0, 0.8, 0]}
         scale={modelScale}
+        scrollProgress={scrollProgress}
       />
     </>
   );
@@ -51,38 +51,39 @@ const LandingSection = ({ scrollProgress = 0 }) => {
   return (
     <section className="relative h-screen w-full overflow-hidden">
       {/* Background blur image */}
-      <div className="absolute inset-0 flex items-center justify-center -translate-y-8">
+      <div className="absolute inset-0 flex items-center justify-center">
         <img
           src={bgBlur}
           alt="Background Blur"
-          className="w-7/10 h-7/10 object-contain"
+          className="w-full h-full object-cover opacity-70"
         />
       </div>
 
-      {/* Content container - moved before Canvas to be behind */}
-      <div className="absolute z-10 h-full w-full max-w-[2000px] mx-auto container">
-        <div className="relative h-full flex flex-col items-center justify-center">
-          {/* TARUSA text container */}
-          <div className="w-full max-w-[90%] lg:max-w-[80%] xl:max-w-[70%]">
-            <div className="relative left-1/2 -translate-x-[30vw] -translate-y-[12vh]">
-              <h1 className="font-gilroy-black text-[#0F5F4B] text-[170px] leading-tight md:text-[120px] sm:text-[90px] xs:text-[60px] whitespace-nowrap">
-                TARUSA
-              </h1>
-            </div>
-          </div>
-
-          {/* MOTORSPORT text container */}
-          <div className="w-full max-w-[90%] lg:max-w-[80%] xl:max-w-[70%]">
-            <div className="relative left-1/2 -translate-x-[9vw] translate-y-[14vh]">
-              <h1 className="font-gilroy-black text-[#0F5F4B] text-[170px] leading-tight md:text-[120px] sm:text-[90px] xs:text-[60px] whitespace-nowrap">
-                MOTORSPORT
-              </h1>
-            </div>
-          </div>
-        </div>
+      {/* Big TARUSA text — stacked behind car */}
+      <div className="absolute inset-0 z-10 flex flex-col items-center justify-center pointer-events-none select-none">
+        {/* TARUSA */}
+        <h1
+          className="font-gilroy-black text-[#0F5F4B] leading-none whitespace-nowrap"
+          style={{
+            fontSize: 'clamp(52px, 14vw, 200px)',
+            transform: 'translateY(-12%)',
+          }}
+        >
+          TARUSA
+        </h1>
+        {/* MOTORSPORT */}
+        <h1
+          className="font-gilroy-black text-[#0F5F4B] leading-none whitespace-nowrap"
+          style={{
+            fontSize: 'clamp(30px, 8vw, 115px)',
+            transform: 'translateY(20%)',
+          }}
+        >
+          MOTORSPORT
+        </h1>
       </div>
 
-      {/* 3D Model Canvas */}
+      {/* 3D Model Canvas — on top of text */}
       <div className="absolute inset-0 z-20">
         <Suspense fallback={<LoadingSpinner />}>
           <Canvas
@@ -99,13 +100,19 @@ const LandingSection = ({ scrollProgress = 0 }) => {
         </Suspense>
       </div>
 
-      {/* Achievement Badges — Yeti Racing inspired, top-right area */}
-      <div className="absolute right-8 top-1/2 -translate-y-1/2 z-30 flex flex-col gap-3 pointer-events-none">
-        {/* Intro text */}
+      {/* Achievement Badges — compact horizontal strip on mobile, 2×2 sidebar on desktop */}
+      {/* Mobile: bottom strip (hidden on sm+) */}
+      <div className="absolute bottom-20 left-0 right-0 z-30 flex justify-center gap-2 sm:hidden px-4">
+        {heroAchievements.map((ach, i) => (
+          <AchievementBadge key={i} {...ach} compact />
+        ))}
+      </div>
+
+      {/* Desktop: right sidebar (hidden below sm) */}
+      <div className="absolute right-8 top-1/2 -translate-y-1/2 z-30 hidden sm:flex flex-col gap-3 pointer-events-none">
         <div className="text-right mb-2">
           <p className="font-gilroy-bold text-[#0F5F4B] text-xs uppercase tracking-widest opacity-70">Our Achievements</p>
         </div>
-        {/* 2×2 grid of badges */}
         <div className="grid grid-cols-2 gap-3">
           {heroAchievements.map((ach, i) => (
             <AchievementBadge key={i} {...ach} />
@@ -113,31 +120,26 @@ const LandingSection = ({ scrollProgress = 0 }) => {
         </div>
       </div>
 
-      {/* Team description and scroll indicator in front */}
-      <div className="relative z-30 h-full w-full max-w-[2000px] mx-auto container pointer-events-none">
-        <div className="relative h-full">
-          {/* Team description text */}
-          <div className="absolute bottom-16 left-1/2 -translate-x-1/2 text-center">
-            <p className="font-['Rough-Splash'] text-[24px] text-[#0F5F4B] tracking-[0.1em]">
-              official off-road racing team of CUSAT
-            </p>
-          </div>
+      {/* Bottom info — team tagline */}
+      <div className="absolute bottom-14 left-0 right-0 z-30 text-center pointer-events-none px-4">
+        <p className="font-['Rough-Splash'] text-base sm:text-xl md:text-[24px] text-[#0F5F4B] tracking-[0.1em]">
+          official off-road racing team of CUSAT
+        </p>
+      </div>
 
-          {/* Scroll indicator */}
-          <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
-            <svg
-              className="w-6 h-6 text-[#0F5F4B]"
-              fill="none"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
-            </svg>
-          </div>
-        </div>
+      {/* Scroll indicator */}
+      <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-30 animate-bounce">
+        <svg
+          className="w-5 h-5 sm:w-6 sm:h-6 text-[#0F5F4B]"
+          fill="none"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="2"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+        </svg>
       </div>
     </section>
   );

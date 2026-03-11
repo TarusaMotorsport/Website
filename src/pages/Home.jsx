@@ -12,7 +12,8 @@ import CircularMenu from '../components/CircularMenu';
 
 function Home() {
   const containerRef = useRef(null);
-  const [isScrolling, setIsScrolling] = useState(false);
+  const isScrollingRef = useRef(false); // use ref instead of state to avoid stale closures
+  const currentSectionRef = useRef(0);
   const [currentSection, setCurrentSection] = useState(0);
   const [blurActive, setBlurActive] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
@@ -25,6 +26,7 @@ function Home() {
 
   const handleSectionChange = (sectionNumber) => {
     setCurrentSection(sectionNumber);
+    currentSectionRef.current = sectionNumber;
     setBlurActive(true);
     setTimeout(() => setBlurActive(false), 300);
   };
@@ -76,111 +78,103 @@ function Home() {
     return (Math.pow(u, 3) * p0 + 3 * Math.pow(u, 2) * t * p1 + 3 * u * Math.pow(t, 2) * p2 + Math.pow(t, 3) * p3);
   };
 
+  // Single scroll engine — uses refs to avoid stale closures
   useEffect(() => {
     const container = containerRef.current;
-    let isWheelEvent = false;
+    if (!container) return;
 
     const smoothScrollToSection = (targetSection) => {
-      if (isScrolling) return;
+      if (isScrollingRef.current) return;
       if (targetSection < 0 || targetSection >= totalSections) return;
-      setIsScrolling(true);
+      isScrollingRef.current = true;
       setBlurActive(true);
-      container.style.overflow = 'hidden';
+
       const start = container.scrollTop;
       const target = targetSection * window.innerHeight;
       const distance = target - start;
-      const duration = 300;
+      const duration = 600;
       const startTime = performance.now();
+
       const animate = (currentTime) => {
         const elapsed = currentTime - startTime;
         const progress = Math.min(elapsed / duration, 1);
         container.scrollTop = start + (distance * bezierEasing(progress));
+
         if (progress < 1) {
           requestAnimationFrame(animate);
         } else {
-          container.style.overflow = 'auto';
-          setIsScrolling(false);
+          isScrollingRef.current = false;
           setBlurActive(false);
+          currentSectionRef.current = targetSection;
           setCurrentSection(targetSection);
-          isWheelEvent = false;
         }
       };
       requestAnimationFrame(animate);
     };
 
+    // Wheel: snap to sections
+    let wheelCooldown = false;
     const handleWheel = (e) => {
       e.preventDefault();
-      if (isWheelEvent || isScrolling) return;
-      isWheelEvent = true;
+      if (wheelCooldown || isScrollingRef.current) return;
+      wheelCooldown = true;
+      setTimeout(() => { wheelCooldown = false; }, 650);
+
       const direction = e.deltaY > 0 ? 1 : -1;
-      const nextSection = currentSection + direction;
+      const nextSection = currentSectionRef.current + direction;
       if (nextSection >= 0 && nextSection < totalSections) {
         smoothScrollToSection(nextSection);
-      } else {
-        isWheelEvent = false;
       }
     };
 
-    if (container) container.addEventListener('wheel', handleWheel, { passive: false });
-    return () => { if (container) container.removeEventListener('wheel', handleWheel); };
-  }, [isScrolling, currentSection, totalSections]);
+    // Touch: swipe to navigate sections
+    let touchStartY = 0;
+    let touchEndY = 0;
+    const minSwipe = 40;
 
-  // Touch handling
-  useEffect(() => {
-    const container = containerRef.current;
-    let touchStart = 0, touchEnd = 0;
-    const minSwipeDistance = 50;
-    const handleTouchStart = (e) => { touchStart = e.touches[0].clientY; };
-    const handleTouchMove = (e) => { touchEnd = e.touches[0].clientY; };
+    const handleTouchStart = (e) => {
+      touchStartY = e.touches[0].clientY;
+      touchEndY = e.touches[0].clientY;
+    };
+    const handleTouchMove = (e) => {
+      touchEndY = e.touches[0].clientY;
+      // Prevent native scroll while we control it
+      e.preventDefault();
+    };
     const handleTouchEnd = () => {
-      if (isScrolling) return;
-      const swipeDistance = touchStart - touchEnd;
-      if (Math.abs(swipeDistance) > minSwipeDistance) {
-        const direction = swipeDistance > 0 ? 1 : -1;
-        const nextSection = currentSection + direction;
-        if (nextSection >= 0 && nextSection < totalSections) {
-          const container = containerRef.current;
-          if (!container) return;
-          container.style.overflow = 'hidden';
-          setIsScrolling(true);
-          setBlurActive(true);
-          const start = container.scrollTop;
-          const target = nextSection * window.innerHeight;
-          container.scrollTop = target;
-          container.style.overflow = 'auto';
-          setIsScrolling(false);
-          setBlurActive(false);
-          setCurrentSection(nextSection);
+      if (isScrollingRef.current) return;
+      const swipeDist = touchStartY - touchEndY;
+      if (Math.abs(swipeDist) > minSwipe) {
+        const direction = swipeDist > 0 ? 1 : -1;
+        const next = currentSectionRef.current + direction;
+        if (next >= 0 && next < totalSections) {
+          smoothScrollToSection(next);
         }
       }
     };
-    if (container) {
-      container.addEventListener('touchstart', handleTouchStart);
-      container.addEventListener('touchmove', handleTouchMove);
-      container.addEventListener('touchend', handleTouchEnd);
-    }
-    return () => {
-      if (container) {
-        container.removeEventListener('touchstart', handleTouchStart);
-        container.removeEventListener('touchmove', handleTouchMove);
-        container.removeEventListener('touchend', handleTouchEnd);
-      }
-    };
-  }, [isScrolling, currentSection, totalSections]);
 
-  // Scroll progress
-  useEffect(() => {
+    // Scroll progress tracking for 3D model animation
     const handleScroll = () => {
-      if (containerRef.current) {
-        const scrollTop = containerRef.current.scrollTop;
-        const progress = Math.min(scrollTop / window.innerHeight, 1);
-        setScrollProgress(progress);
-      }
+      const scrollTop = container.scrollTop;
+      // Normalize: 0 = top of page, 1 = end of first section
+      const progress = Math.min(scrollTop / window.innerHeight, 1);
+      setScrollProgress(progress);
     };
-    const container = containerRef.current;
-    if (container) container.addEventListener('scroll', handleScroll);
-    return () => { if (container) container.removeEventListener('scroll', handleScroll); };
-  }, []);
+
+    container.addEventListener('wheel', handleWheel, { passive: false });
+    container.addEventListener('touchstart', handleTouchStart, { passive: true });
+    container.addEventListener('touchmove', handleTouchMove, { passive: false });
+    container.addEventListener('touchend', handleTouchEnd, { passive: true });
+    container.addEventListener('scroll', handleScroll, { passive: true });
+
+    return () => {
+      container.removeEventListener('wheel', handleWheel);
+      container.removeEventListener('touchstart', handleTouchStart);
+      container.removeEventListener('touchmove', handleTouchMove);
+      container.removeEventListener('touchend', handleTouchEnd);
+      container.removeEventListener('scroll', handleScroll);
+    };
+  }, []); // Empty deps — uses refs for mutable state
 
   return (
     <>
@@ -213,46 +207,45 @@ function Home() {
 
       <CircularMenu isVisible={currentSection !== 0} onSectionChange={handleSectionChange} />
       {currentSection !== 0 && (
-        <div className="fixed left-8 bottom-8 z-50">
+        <div className="fixed left-4 bottom-4 sm:left-8 sm:bottom-8 z-50">
           <SponsorButton isLight={false} />
         </div>
       )}
 
       <div
         ref={containerRef}
-        className={`relative h-screen w-full overflow-y-auto overflow-x-hidden transition-all duration-500 ${isLoading ? 'opacity-0' : 'opacity-100'
-          } ${raceMode ? 'race-mode' : ''}`}
-        style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+        className={`relative h-screen w-full overflow-y-auto overflow-x-hidden transition-opacity duration-500 ${isLoading ? 'opacity-0' : 'opacity-100'} ${raceMode ? 'race-mode' : ''}`}
+        style={{ scrollbarWidth: 'none', msOverflowStyle: 'none', scrollSnapType: 'none' }}
       >
         <div className={`transition-all duration-300 ${blurActive ? 'motion-blur' : ''}`}>
           {currentSection === 0 && <Navbar currentSection={currentSection} onSectionChange={handleSectionChange} />}
 
           {/* Section 0: Landing */}
-          <div className="h-screen w-full">
+          <div className="h-screen w-full overflow-hidden flex-shrink-0">
             <LandingSection scrollProgress={scrollProgress} />
           </div>
           {/* Section 1: Timeline 2017 */}
-          <div className="h-screen w-full">
+          <div className="h-screen w-full overflow-hidden flex-shrink-0">
             <TimelineSection />
           </div>
           {/* Section 2: Timeline 2022 */}
-          <div className="h-screen w-full">
+          <div className="h-screen w-full overflow-hidden flex-shrink-0">
             <TimelineSection2022 />
           </div>
           {/* Section 3: Timeline 2024 */}
-          <div className="h-screen w-full">
+          <div className="h-screen w-full overflow-hidden flex-shrink-0">
             <TimelineSection2024 />
           </div>
           {/* Section 4: Timeline 2025 — Current Build */}
-          <div className="h-screen w-full">
+          <div className="h-screen w-full overflow-hidden flex-shrink-0">
             <TimelineSection2025 />
           </div>
           {/* Section 5: Achievements */}
-          <div className="h-screen w-full">
+          <div className="h-screen w-full overflow-hidden flex-shrink-0">
             <AchievementsSection />
           </div>
           {/* Section 6: CTA / What's Next */}
-          <div className="h-screen w-full">
+          <div className="h-screen w-full overflow-hidden flex-shrink-0">
             <CTASection />
           </div>
         </div>
