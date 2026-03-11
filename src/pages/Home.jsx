@@ -9,10 +9,11 @@ import AchievementsSection from '../components/AchievementsSection';
 import CTASection from '../components/CTASection';
 import LoadingScreen from '../components/LoadingScreen';
 import CircularMenu from '../components/CircularMenu';
+import HomeMobile from './HomeMobile';
 
 function Home() {
   const containerRef = useRef(null);
-  const isScrollingRef = useRef(false); // use ref instead of state to avoid stale closures
+  const isScrollingRef = useRef(false);
   const currentSectionRef = useRef(0);
   const [currentSection, setCurrentSection] = useState(0);
   const [blurActive, setBlurActive] = useState(false);
@@ -22,7 +23,18 @@ function Home() {
   const [raceBuffer, setRaceBuffer] = useState('');
   const [raceTimeout, setRaceTimeout] = useState(null);
   const [scrollProgress, setScrollProgress] = useState(0);
-  const totalSections = 7; // Landing, Timeline2017, Timeline2022, Timeline2024, Timeline2025, Achievements, CTA
+  const [isMobile, setIsMobile] = useState(() => window.innerWidth < 768);
+  const totalSections = 7;
+
+  // Switch to mobile layout on small screens
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 768);
+    window.addEventListener('resize', check);
+    return () => window.removeEventListener('resize', check);
+  }, []);
+
+  // Render dedicated mobile page on small screens
+  if (isMobile) return <HomeMobile />;
 
   const handleSectionChange = (sectionNumber) => {
     setCurrentSection(sectionNumber);
