@@ -2,12 +2,15 @@ import React, { useRef } from 'react';
 import { useGLTF } from '@react-three/drei';
 import { useFrame } from '@react-three/fiber';
 
+const MODEL_PATH = '/models/nwaaSPT_draco.glb';
+const DRACO_PATH = '/draco/';
+
 // Preload the model
-useGLTF.preload('/models/nwaaSPT.glb', true);
+useGLTF.preload(MODEL_PATH, DRACO_PATH);
 
 export default function CarModel({ position = [0, 0, 0], rotation = [0, 0, 0], scale = 1, scrollProgress = 0 }) {
   const modelRef = useRef();
-  const { scene } = useGLTF('/models/nwaaSPT.glb', true);
+  const { scene } = useGLTF(MODEL_PATH, DRACO_PATH);
 
   useFrame((state, delta) => {
     if (!modelRef.current) return;

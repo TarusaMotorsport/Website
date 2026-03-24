@@ -16,12 +16,12 @@ const LoadingScreen = ({ onLoadingComplete }) => {
           setTimeout(() => {
             setIsVisible(false);
             if (onLoadingComplete) onLoadingComplete();
-          }, 500); // Delay before fading out
+          }, 300); // Delay before fading out
           return 100;
         }
-        return prev + 1;
+        return prev + 2;
       });
-    }, 20);
+    }, 15);
 
     return () => clearInterval(interval);
   }, [onLoadingComplete]);
