@@ -4,10 +4,10 @@ import { Canvas } from '@react-three/fiber';
 import { useProgress } from '@react-three/drei';
 import CarModel from '../components/CarModel';
 import TarusaLogo from '../assets/tarusa_logo.png';
-import bgBlur from '../assets/bg_blur.png';
-import firstJourney from '../assets/journey_pics/first_new.png';
-import polaroidImage from '../assets/journey_pics/polaroid.png';
-import polaroidImage2024 from '../assets/journey_pics/polaroid_2024.png';
+import bgBlur from '../assets/bg_blur.webp';
+import firstJourney from '../assets/journey_pics/first_new.webp';
+import polaroidImage from '../assets/journey_pics/polaroid.webp';
+import polaroidImage2024 from '../assets/journey_pics/polaroid_2024.webp';
 
 // ─── Mini 3D Loader ──────────────────────────────────────────────────────────
 const ModelLoader = () => {

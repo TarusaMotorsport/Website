@@ -1,6 +1,6 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, lazy, Suspense } from 'react';
 import Navbar, { SponsorButton } from '../components/Navbar';
-import LandingSection from '../components/LandingSection';
+const LandingSection = lazy(() => import('../components/LandingSection'));
 import TimelineSection from '../components/TimelineSection';
 import TimelineSection2022 from '../components/TimelineSection2022';
 import TimelineSection2024 from '../components/TimelineSection2024';
@@ -226,7 +226,7 @@ function Home() {
 
       <div
         ref={containerRef}
-        className={`relative h-screen w-full overflow-y-auto overflow-x-hidden transition-opacity duration-500 ${isLoading ? 'opacity-0' : 'opacity-100'} ${raceMode ? 'race-mode' : ''}`}
+        className={`relative h-screen w-full overflow-y-auto overflow-x-hidden ${raceMode ? 'race-mode' : ''}`}
         style={{ scrollbarWidth: 'none', msOverflowStyle: 'none', scrollSnapType: 'none' }}
       >
         <div className={`transition-all duration-300 ${blurActive ? 'motion-blur' : ''}`}>
@@ -234,7 +234,9 @@ function Home() {
 
           {/* Section 0: Landing */}
           <div className="h-screen w-full overflow-hidden flex-shrink-0">
-            <LandingSection scrollProgress={scrollProgress} />
+            <Suspense fallback={null}>
+              <LandingSection scrollProgress={scrollProgress} />
+            </Suspense>
           </div>
           {/* Section 1: Timeline 2017 */}
           <div className="h-screen w-full overflow-hidden flex-shrink-0">

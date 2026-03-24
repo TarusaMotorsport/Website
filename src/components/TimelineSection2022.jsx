@@ -1,5 +1,5 @@
 import React from 'react';
-import polaroidImage from '../assets/journey_pics/polaroid.png';
+import polaroidImage from '../assets/journey_pics/polaroid.webp';
 
 const TimelineSection2022 = () => {
   return (

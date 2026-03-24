@@ -1,6 +1,6 @@
 import React from 'react';
-import firstJourney from '../assets/journey_pics/first_new.png';
-import polaroidImage from '../assets/journey_pics/polaroid.png';
+import firstJourney from '../assets/journey_pics/first_new.webp';
+import polaroidImage from '../assets/journey_pics/polaroid.webp';
 
 const TimelineSection = () => {
   return (

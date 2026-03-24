@@ -2,7 +2,7 @@ import React, { Suspense, useState } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { useProgress } from '@react-three/drei';
 import CarModel from './CarModel';
-import bgBlur from '../assets/bg_blur.png';
+import bgBlur from '../assets/bg_blur.webp';
 import AchievementBadge from './AchievementBadge';
 
 // Enhanced loading component with actual progress
