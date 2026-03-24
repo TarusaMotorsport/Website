@@ -1,201 +1,85 @@
 # Tarusa Motorsport — Data Entry Guide
-
-> **Quick Start:** Clone → `npm install` → `npm run dev` → Edit data files below → Commit & push
-
-Fill in your real data here. Each section maps directly to the website.
+> **Last generated:** 11/3/2026, 3:31:30 pm
 
 ---
 
-## 1. Team Members
-**File to edit:** `src/data/teamData.js`  
-**Photos folder:** `src/assets/team/`
+## How to update website data
 
-### Photo Naming Convention
-```
-src/assets/team/<firstname>_<lastname>.jpg
-```
-Examples:
-- `nadec_biju.jpg`
-- `pranav_krishna.jpg`
-- `roshin_roy.jpg`
+1. Edit files in the `data/` folder using Excel, Google Sheets, or any text editor
+2. Save the CSV
+3. Run in terminal: `node scripts/update-from-csv.js`
+4. The JS source files are regenerated automatically — commit & push!
 
-Photos should be:
-- **Square or portrait** (recommended: 800×1000px or square)
-- **JPG or WebP** for best performance
-- Face centred, clear background preferred
+> ⚠️ Do NOT hand-edit `src/data/teamData.js`, `src/data/mediaData.js`, or the `achievements` array in `AchievementsSection.jsx` — they will be overwritten next time you run the script.
 
-### How to link a photo in teamData.js
-1. Add the file: `src/assets/team/your_name.jpg`
-2. At the top of `teamData.js`, add the import:
-   ```js
-   import yourName from '../assets/team/your_name.jpg';
-   ```
-3. Set `photo: yourName` in the member object.
+---
 
-### Team Members to Fill In
+## CSV Files
 
-| Field | Description |
+| File | Controls |
 |---|---|
-| `name` | Full name |
-| `role` | e.g. "Team Captain", "Suspension Lead" |
-| `department` | Group/subsystem (Leadership, Powertrain, Suspension & Chassis, Electronics & Controls, Media & Outreach) |
-| `bio` | 1–2 sentence description |
-| `linkedin` | Full LinkedIn URL e.g. `https://www.linkedin.com/in/yourprofile` |
-| `photo` | Import name or `null` for initials fallback |
+| [`data/team.csv`](data/team.csv) | Team page — member cards |
+| [`data/achievements.csv`](data/achievements.csv) | Achievements section |
+| [`data/media.csv`](data/media.csv) | Media page — videos, press, gallery |
 
 ---
 
-## 2. About Page
-**File to edit:** `src/data/aboutData.js`
+## Photo Guide
 
-| Field | What to update |
+### Team Photos → `src/assets/team/`
+Name format: `firstname_lastname.jpg`  
+Then update the `photo_filename` column in `data/team.csv`.
+
+### Gallery Photos → `src/assets/gallery/`
+Name format: `category_year_number.jpg`  
+After running the script, open `src/data/mediaData.js` and replace `image: null` with the imported variable for each photo.
+
+---
+
+## Current Status
+
+### Team Members — 11 total
+
+| Name | Role | Department | Status |
+|---|---|---|---|
+| Nadec Biju | Team Captain | Leadership | ⚠️ missing: bio |
+| Placeholder Member | Co-Captain / Faculty Advisor | Leadership | ⚠️ missing: name, bio, linkedin, photo |
+| Placeholder Member | Powertrain Lead | Powertrain | ⚠️ missing: name, linkedin, photo |
+| Placeholder Member | Powertrain Engineer | Powertrain | ⚠️ missing: name, bio, linkedin, photo |
+| Placeholder Member | Suspension Lead | Suspension & Chassis | ⚠️ missing: name, linkedin, photo |
+| Placeholder Member | Chassis Engineer | Suspension & Chassis | ⚠️ missing: name, bio, linkedin, photo |
+| Placeholder Member | Fabrication Specialist | Suspension & Chassis | ⚠️ missing: name, bio, linkedin, photo |
+| Placeholder Member | Electronics Lead | Electronics & Controls | ⚠️ missing: name, linkedin, photo |
+| Placeholder Member | Embedded Systems Engineer | Electronics & Controls | ⚠️ missing: name, bio, linkedin, photo |
+| Placeholder Member | Media & Marketing Lead | Media & Outreach | ⚠️ missing: name, linkedin, photo |
+| Placeholder Member | Content Creator | Media & Outreach | ⚠️ missing: name, bio, linkedin, photo |
+
+### Achievements — 3 entries
+
+| Year | Event | Result | Notes |
+|---|---|---|---|
+| 2024 | SAEINDIA hBaja | All India Rank 1 | 🌟 highlight |
+| 2022 | SAEINDIA eBaja (Virtual) | Virtual Participation |  |
+| 2017–18 | SAEINDIA Baja / FMEA | Debut Season |  |
+
+### Videos — 2 entries
+
+| Title | URL |
 |---|---|
-| `stats[1].value` | Currently "AIR 1" — update if needed |
-| `stats[2].value` | Currently "30+" — update with real member count |
-| `story[3]` | Update with current 2025 build status |
-| `hydrogenAchievement` | Verify AIR 1 details are accurate |
+| hBaja 2024 — Competition Highlights | ⚠️ placeholder |
+| 2025 Build Teaser | ⚠️ placeholder |
 
----
+### Press — 2 entries
 
-## 3. Timeline 2025 — Current Build
-**File to edit:** `src/components/TimelineSection2025.jsx`
-
-### Text to update (search for `← UPDATE IN FILL_ME.md`):
-```
-- Paragraph 1: Describe the 2025 build goal/ambition
-- Paragraph 2: Describe the current state/motivation  
-```
-
-### Build status items (search for the status array in the file):
-Update each item's `status` to one of:
-- `"complete"` → shows green dot + "✓ Done"
-- `"in-progress"` → shows yellow pulsing dot + "In Progress"
-- `"upcoming"` → shows grey dot + "Upcoming"
-
-### 2025 Timeline Photo
-```
-src/assets/about/timeline_2025.jpg
-```
-1. Add your build photo here
-2. In `TimelineSection2025.jsx`, find the placeholder div and replace with:
-   ```jsx
-   import timeline2025 from '../assets/about/timeline_2025.jpg';
-   // ... then replace the placeholder div with:
-   <img src={timeline2025} alt="2025 Build" className="w-full rounded-2xl shadow-2xl" />
-   ```
-
----
-
-## 4. Achievements
-**File to edit:** `src/components/AchievementsSection.jsx`
-
-Update the `achievements` array at the top:
-
-| Field | Value |
+| Title | Link |
 |---|---|
-| `year` | Year of competition |
-| `event` | Event name |
-| `result` | e.g. "All India Rank 1", "Rank 12", "Best Design Award" |
-| `highlight` | `true` for your best result, `false` otherwise |
-| `description` | Short 1-sentence description |
-| `badge` | Emoji (🏆 🥇 ⚡ 🚀 etc.) |
+| Placeholder — Add press coverage article title here | ⚠️ no link |
+| Placeholder — Add another press coverage article | ⚠️ no link |
 
----
-
-## 5. Gallery / Media
-**File to edit:** `src/data/mediaData.js`  
-**Photos folder:** `src/assets/gallery/`
-
-### Photo Naming Convention
-```
-src/assets/gallery/<category>_<year>_<number>.jpg
-```
-Examples:
-- `build_2025_01.jpg`
-- `competition_2024_01.jpg`
-- `team_2024_01.jpg`
-- `competition_2024_02.jpg`
-
-### Categories available
-- `Build` — workshop, fabrication, parts
-- `Competition` — on-track, judges, results
-- `Team` — group photos, events, campus
-
-### How to add a photo
-1. Place file in `src/assets/gallery/`
-2. Import at top of `mediaData.js`:
-   ```js
-   import build2025_01 from '../assets/gallery/build_2025_01.jpg';
-   ```
-3. In the `gallery` array, find the matching item and set:
-   ```js
-   image: build2025_01
-   ```
-
-### Videos to fill in
-Replace the `url` field in `mediaData.videos` with real YouTube or Instagram Reel URLs.
-
-### Press coverage to fill in
-Replace placeholder entries in `mediaData.press` with real article links.
-
----
-
-## 6. CTA Section — What's Next
-**File to edit:** `src/components/CTASection.jsx`
-
-Search for:
-```
-🏁 Target: SAEINDIA Baja 2026
-```
-Update the event name and year if needed.
-
----
-
-## 7. Sponsor Page
-No data file needed — already update live with:
-- ✅ Razorpay link (already wired to your page)
-- ✅ UPI QR code
-- ✅ FAQ answers
-
-To update funding goal/progress bar in the future, add:
-```
-Current raised: ₹X
-Target: ₹Y
-```
-...by adding a `FundingBar` component to `Sponsor.jsx`.
-
----
-
-## Summary Checklist
-
-**Team (`src/data/teamData.js`)**
-- [ ] Fill all team members with name, role, department, bio
-- [ ] Add photos to `src/assets/team/` (use `firstname_lastname.jpg`)
-- [ ] Import and link photos in teamData.js
-
-**About (`src/data/aboutData.js`)**
-- [ ] Update member count stat
-- [ ] Update 2026 story paragraph
-
-**Timeline (`src/components/TimelineSection2025.jsx`)**
-- [ ] Update build status items (complete/in-progress/upcoming)
-- [ ] Add 2026 build photo to `src/assets/about/timeline_2025.jpg`
-
-**Achievements (`src/components/AchievementsSection.jsx`)**
-- [ ] Update competition results
-- [ ] Set `highlight: true` on best achievement
-
-**Media (`src/data/mediaData.js`)**
-- [ ] Add gallery photos to `src/assets/gallery/`
-- [ ] Update video URLs (YouTube/Instagram)
-- [ ] Add press coverage links
-
-**CTA (`src/components/CTASection.jsx`)**
-- [ ] Update target competition year
+### Gallery — 16 captions defined
 
 ---
 
 ## Need Help?
 
-- Open an issue on GitHub
 - Contact: [@tarusamotorsport](https://instagram.com/tarusamotorsport)
