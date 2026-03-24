@@ -8,16 +8,16 @@ const aboutData = {
 
     stats: [
         { value: "2017", label: "Founded" },
-        { value: "AIR 1", label: "hBaja 2024 Rank" },
-        { value: "30+", label: "Active Members" },          // ← Update: fill in FILL_ME.md
+        { value: "3×", label: "AIR 1 Wins" },
+        { value: "35+", label: "Active Members" },
         { value: "H₂", label: "Hydrogen-Powered" },
     ],
 
     story: [
-        "Our journey began in 2017-18 when a group of CUSAT engineering students entered the student motorsports scene through SAE India Baja. From day one, we were driven by one thing: the thrill of building something real and racing it on rough terrain.",
-        "Like many teams, the COVID-19 pandemic forced us to pause. After a quiet period, we regrouped in 2022 with a fresh perspective — pivoting from internal combustion to electric, and then making the bold leap into hydrogen-powered vehicles.",
-        "In 2024, we entered the hBaja category — the hydrogen class of the Baja SAE — and secured All India Rank 1. Our bi-fuel (hydrogen + petrol) system was a first for the entire university.",
-        "Today, we're building our next machine — more capable, more efficient, and more ambitious than everything we've raced before.", // ← Fill in actual 2025 build status
+        "Our journey began in 2017–18 when a group of CUSAT engineering students entered the student motorsports scene through SAE India Baja. From day one, we were driven by one thing: the thrill of building something real and racing it on rough terrain.",
+        "Like many teams around the world, our progress was temporarily paused during the COVID-19 pandemic. In 2022, we regrouped with renewed determination and redefined our direction, transitioning from mBAJA (internal combustion) to eBAJA (electric) as we began exploring emerging technologies.",
+        "Soon after, we took an even bigger step forward by entering the hydrogen BAJA category. In 2024, our efforts culminated in a major milestone when we secured All India Rank 1 in hBAJA, with our vehicle running on a CNG & petrol bi-fuel system — setting a new technological benchmark for our university.",
+        "In 2025 we returned with an HCNG blend (hydrogen + CNG + petrol), earning AIR 7 overall and AIR 1 in both the Cost Event and the Statics Event. In 2026 we secured AIR 1 in the 3D Print Sync Event and AIR 3 in the Cost Event. Today, we're building our 2027 machine — a purpose-built hydrogen ATV engineered from the ground up, targeting our best competition performance yet.",
     ],
 
     hydrogenIntro:
@@ -47,7 +47,7 @@ const aboutData = {
     ],
 
     hydrogenAchievement:
-        "All India Rank 1 — SAEINDIA hBaja 2024. First hydrogen ATV at CUSAT to compete and win at the national level.",
+        "AIR 1 — hBaja 2024 · AIR 1 Cost & Statics — hBaja 2025 · AIR 1 3D Print Sync — hBaja 2026. Three national rank-1 wins and counting.",
 
     activities: [
         {

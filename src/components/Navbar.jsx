@@ -86,7 +86,7 @@ const Navbar = ({ currentSection, onSectionChange, hideSponsor = false, logoOnly
           <img
             src={TarusaLogo}
             alt="Tarusa Logo"
-            className={`h-12 object-contain transition-transform duration-300 ease-smooth hover:scale-105 ${isLight ? 'brightness-0 invert' : ''
+            className={`${logoOnly ? 'h-20' : 'h-12'} object-contain transition-transform duration-300 ease-smooth hover:scale-105 ${isLight ? 'brightness-0 invert' : ''
               }`}
           />
         </a>

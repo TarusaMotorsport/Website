@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { SponsorButton } from '../components/Navbar';
-import CircularMenu from '../components/CircularMenu';
+import Navbar from '../components/Navbar';
 import mediaData from '../data/mediaData';
 
 const InstagramIcon = () => (
@@ -57,10 +56,7 @@ const Media = () => {
 
     return (
         <div className="min-h-screen bg-[#F0F5F5]">
-            <CircularMenu isVisible={true} onSectionChange={handleSectionChange} />
-            <div className="fixed left-8 bottom-8 z-50">
-                <SponsorButton isLight={false} />
-            </div>
+            <Navbar currentSection={0} onSectionChange={handleSectionChange} />
 
             {/* Header */}
             <div className="relative bg-white border-b border-[#0F5F4B]/10 overflow-hidden">

@@ -1,33 +1,51 @@
 import React from 'react';
 
-// Achievements data — update in FILL_ME.md
+// Achievements data — update in data/achievements.csv
 const achievements = [
     {
-        year: "2024",
-        event: "SAEINDIA hBaja",
-        result: "All India Rank 1",
+        year: `2026`,
+        event: `SAEINDIA hBaja`,
+        result: `AIR 1 — 3D Print Sync · AIR 3 — Cost Event`,
+        rank: `AIR 1`,
         highlight: true,
-        description: "Entered the inaugural hydrogen ATV category and secured the top position nationally.",
+        badge: "🏅",
+        description: `Secured AIR 1 in the 3D Print Sync Event and AIR 3 in the Cost Event — showcasing our strengths in advanced manufacturing and cost-effective vehicle development.`,
+    },
+    {
+        year: `2025`,
+        event: `SAEINDIA hBaja`,
+        result: `AIR 7 Overall · AIR 1 — Cost & Statics Events`,
+        rank: `AIR 7`,
+        highlight: false,
+        badge: "⭐",
+        description: `Competed with a hydrogen–CNG–petrol bi-fuel (HCNG blend) system. Earned AIR 7 overall and AIR 1 in both the Cost Event and the Statics Event.`,
+    },
+    {
+        year: `2024`,
+        event: `SAEINDIA hBaja`,
+        result: `All India Rank 1`,
+        rank: `AIR 1`,
+        highlight: false,
         badge: "🏆",
-        rank: "AIR 1",
+        description: `Entered the inaugural hydrogen ATV category and secured the top position nationally with a CNG & petrol bi-fuel system — a first for our university.`,
     },
     {
-        year: "2022",
-        event: "SAEINDIA eBaja (Virtual)",
-        result: "Virtual Participation",
+        year: `2022`,
+        event: `SAEINDIA eBaja (Virtual)`,
+        result: `Virtual Participation`,
+        rank: `eBaja`,
         highlight: false,
-        description: "Strategic comeback after COVID-19 pause. Pivoted from IC to electric powertrain.",
         badge: "⚡",
-        rank: "eBaja",
+        description: `Strategic comeback after COVID-19 pause. Pivoted from IC to electric powertrain.`,
     },
     {
-        year: "2017–18",
-        event: "SAEINDIA Baja / FMEA",
-        result: "Debut Season",
+        year: `2017–18`,
+        event: `SAEINDIA Baja / FMEA`,
+        result: `Debut Season`,
+        rank: `Debut`,
         highlight: false,
-        description: "Tarusa's first competition season. Made our presence felt in the student motorsport scene.",
         badge: "🚀",
-        rank: "Debut",
+        description: `Tarusa's first competition season. Made our presence felt in the student motorsport scene.`,
     },
 ];
 
@@ -64,14 +82,14 @@ const AchievementsSection = () => {
                         Our Achievements
                     </h2>
                     <p className="font-gilroy-medium text-white/50 text-sm max-w-xl mx-auto">
-                        From debut in 2017 to AIR 1 in 2024 — written in dust, steel, and hydrogen.
+                        From debut in 2017 to multiple national ranks — written in dust, steel, and hydrogen.
                     </p>
                 </div>
 
                 {/* Stats Bar — compact */}
                 <div className="grid grid-cols-3 gap-4 mb-4 border border-white/10 rounded-xl py-4 px-4 bg-white/[0.03] backdrop-blur-sm">
-                    <StatItem value="3+" label="Competitions" />
-                    <StatItem value="1" label="National Rank 1" />
+                    <StatItem value="5+" label="Competitions" />
+                    <StatItem value="3" label="National Rank 1s" />
                     <StatItem value="8+" label="Years Active" />
                 </div>
 
